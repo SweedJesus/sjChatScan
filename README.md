@@ -23,8 +23,8 @@ Currently only shows the matched message as a notifcation with the match highlig
 
 #### Examples:
 
--   `heal` matches: <font color=purple>heal</font>er / <font color=purple>HEAL</font>S
--   `lf%d*m` matches <font color=purple>lfg</font> / <font color=purple>LF2M</font> / <font color=purple>LF9M</font>
+-   `heal` matches: "hea" in "healer", "HEAL" in "HEALS"
+-   `lf%d*m` matches: "lfg", "LF2M", "LF9M"
 
 ### Command table
 
