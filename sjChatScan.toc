@@ -1,0 +1,18 @@
+﻿## Interface: 11200
+## Title: sjChatScan
+## Author: SweedJesus (Miraculin on Nostalrius)
+## Note: Scans channel messages for search patterns using Lua regex and does something when there's a match. 
+## X-Website: https://gitgud.io/SweedJesus/sjChatScan
+## X-Category: Chat
+## DefaultState: Enabled
+## SavedVariables: sjChatScan_DB
+
+libs\AceLibrary\AceLibrary.lua
+libs\AceAddon-2.0\AceAddon-2.0.lua
+libs\AceConsole-2.0\AceConsole-2.0.lua
+libs\AceDB-2.0\AceDB-2.0.lua
+libs\AceDebug-2.0\AceDebug-2.0.lua
+libs\AceEvent-2.0\AceEvent-2.0.lua
+libs\AceOO-2.0\AceOO-2.0.lua
+
+core.lua
