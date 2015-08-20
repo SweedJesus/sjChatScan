@@ -8,7 +8,7 @@ Currently only shows the matched message as a notifcation with the match highlig
 ## Interface: 11200
 ## Title: sjChatScan
 ## Author: SweedJesus (Miraculin on Nostalrius)
-## Note: Scans channel messages for search patterns using Lua regex and does something when there's a match. 
+## Note: Scans channel messages for search patterns using Lua regex and does something when there's a match.
 ## X-Website: https://gitgud.io/SweedJesus/sjChatScan
 ## X-Category: Chat
 ## DefaultState: Enabled
@@ -18,12 +18,12 @@ Currently only shows the matched message as a notifcation with the match highlig
 ## Usage
 
 ### Patterns
-    
+
 -   [Lua Manual on patterns](http://www.lua.org/manual/5.1/manual.html#5.4.1)
 
 #### Examples:
 
--   `heal` matches: "hea" in "healer", "HEAL" in "HEALS"
+-   `heal` matches: "heal" in "healer", "HEAL" in "HEALS"
 -   `lf%d*m` matches: "lfg", "LF2M", "LF9M"
 
 ### Command table
