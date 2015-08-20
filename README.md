@@ -19,6 +19,7 @@ Currently only shows the matched message as a notifcation with the match highlig
 
 ### Patterns
 
+-   Currently always case sensitive, but converts messages to lower case so **patterns should use only lower case characters**.
 -   [Lua Manual on patterns](http://www.lua.org/manual/5.1/manual.html#5.4.1)
 
 #### Examples:
