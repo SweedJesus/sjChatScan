@@ -23,22 +23,18 @@ Currently only shows the matched message as a notifcation with the match highlig
 
 #### Examples:
 
-Pattern | Matched strings
--- | --
-`heal` | <font color=purple>heal</font>er / <font color=purple>HEAL</font>S
-`lf%d*m` | <font color=purple>lfg</font> / <font color=purple>LF2M</font> / <font color=purple>LF9M</font>
+-   `heal` matches: <font color=purple>heal</font>er / <font color=purple>HEAL</font>S
+-   `lf%d*m` matches <font color=purple>lfg</font> / <font color=purple>LF2M</font> / <font color=purple>LF9M</font>
 
 ### Command table
 
-Command | Function
--- | --
-`/sjcs` | Show top level menu options.
-`/sjcs channels ` | Toggle channels to scan.
-`/sjcs patterns` | Show pattern options.
-`/sjcs patterns list` | List saved patterns.
-`/sjcs patterns add <pattern>` | Add a pattern.
-`/sjcs patterns remove <index>` | Remove a pattern via index.
-`/sjcs color [hex-code]` | Set the highlight color.
+-   `/sjcs`: Show top level menu options.
+-   `/sjcs channels `:  Toggle channels to scan.
+-   `/sjcs patterns`:  Show pattern options.
+-   `/sjcs patterns list`:  List saved patterns.
+-   `/sjcs patterns add <pattern>`:  Add a pattern.
+-   `/sjcs patterns remove <index>`:  Remove a pattern via index.
+-   `/sjcs color [hex-code]`:  Set the highlight color.
 
 ## TODO
 
