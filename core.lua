@@ -104,6 +104,19 @@ function this:OnChatMsg(message, sender)
     end
 end
 
+function this:AddPattern(index, pattern)
+    if not pattern then
+        pattern = index
+    end
+    local valid = pcall(string.find, "", pattern)
+    if valid then
+        self:Print("Added pattern %q", pattern)
+        table.insert(self.patterns, pattern)
+    else
+        self:Print("|cffff0000Error|r Invalid pattern")
+    end
+end
+
 --- Initialize tables.
 function this:Init()
     self.defaults = {
@@ -211,16 +224,10 @@ function this:Init()
                         name = "Add",
                         desc = "Add pattern",
                         type = "text",
-                        usage = "<pattern>",
+                        usage = "<pattern> or <index, pattern>",
                         get = false,
-                        set = function(pattern)
-                            local valid = pcall(string.find, "", pattern)
-                            if valid then
-                                self:Print("Added pattern %q", pattern)
-                                table.insert(self.patterns, pattern)
-                            else
-                                self:Print("|cffff0000Error|r Invalid pattern")
-                            end
+                        set = function(index, pattern)
+                            self:AddPattern(index, pattern)
                         end
                     },
                     remove = {
