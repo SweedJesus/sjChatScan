@@ -6,6 +6,7 @@ sjChatScan = AceLibrary("AceAddon-2.0"):new(
 
 local this = sjChatScan
 
+local ERROR    = "|cffff0000Error|r "
 local channel  = "CHAT_MSG_CHANNEL"
 local guild    = "CHAT_MSG_GUILD"
 local officer  = "CHAT_MSG_OFFICER"
@@ -79,7 +80,7 @@ end
 
 --- Addon enabled handler.
 function this:OnEnable()
-    for channel,enable in self.channels do
+    for channel, enable in self.channels do
         if enable then
             self:RegisterEvent(channel, "OnChatMsg")
         end
@@ -92,28 +93,76 @@ end
 
 --- Chat message handler.
 function this:OnChatMsg(message, sender)
-    local lower, i, pattern, s, e = string.lower(message), 0
-    while not s and i < getn(self.patterns) do
-        i = i + 1
-        pattern = self.patterns[i]
-        s, e = string.find(lower, pattern)
+    local lower, i, num_matches, s = string.lower(message), 0, 0
+    for i, patterns in ipairs(self.patterns) do
+        for _, pattern in ipairs(patterns) do
+            s = string.find(lower, pattern)
+            if not s then
+                break
+            end
+        end
+        if s then
+            break
+        end
     end
     if s then
-        self:Debug("Scan match (pattern:%q s:%d e:%d)", pattern, s, e)
-        Notify(string.format("%s: %s", sender, Highlight(message, s, e, self.opt.color)))
+        self:Debug("Scan match (i:%d s:%d e:%d)", i, s, e)
+        Notify(string.format("|cff4567absjCS|r [%s]: %s", sender, message))
     end
 end
 
-function this:AddPattern(index, pattern)
-    if not pattern then
-        pattern = index
+function this:AddPattern(pattern, index)
+    if index and not self.patterns[index] then
+        self:Print(ERROR.."Invalid index!")
+        return
     end
     local valid = pcall(string.find, "", pattern)
-    if valid then
-        self:Print("Added pattern %q", pattern)
-        table.insert(self.patterns, pattern)
+    if not valid then
+        self:Print(ERROR.."Invalid pattern!")
     else
-        self:Print("|cffff0000Error|r Invalid pattern")
+        if not index then
+            self:Print("Added pattern { %q }", pattern)
+            table.insert(self.patterns, { pattern })
+        else
+            local s
+            for i,v in ipairs(self.patterns) do
+                s = "{\""..v[1]
+                for i=2, getn(v) do
+                    s = s.."\", \""..v[i]
+                end
+                s = s.."\"}) "
+            end
+            self:Print("Added pattern %q to %s", pattern, s)
+            table.insert(self.patterns[index], pattern)
+        end
+    end
+end
+
+function this:RemovePattern(index, subindex)
+    if index then
+        index = tonumber(index)
+        assert(index)
+    end
+    if subindex then
+        subindex = tonumber(subindex)
+        assert(subindex)
+    end
+    if index <= getn(self.patterns) then
+        if not subindex then
+            self:Print("Removed index %d (%q)", index, self.patterns[index])
+            table.remove(self.patterns, index)
+        else
+            if subindex <= getn(self.patterns[index]) then
+                self:Print("Removed subindex %d (%q) from %d", subindex,
+                self.patterns[index][subindex], index)
+
+                table.remove(self.patterns[index], subindex)
+            else
+                self:Print(ERROR.."Invalid subindex %q!", subindex)
+            end
+        end
+    else
+        self:Print(ERROR.."Invalid index %q!", index)
     end
 end
 
@@ -132,7 +181,7 @@ function this:Init()
             [yell]    = true
         },
         patterns = {
-            string.lower(GetUnitName("player"))
+            --string.lower(GetUnitName("player"))
         }
     }
 
@@ -213,11 +262,19 @@ function this:Init()
                         type = "execute",
                         func = function()
                             -- Maybe make each pattern a different color in spectrum
+                            if getn(self.patterns) == 0 then
+                                self:Print("No patterns!")
+                                return
+                            end
                             local s = ""
                             for i,v in ipairs(self.patterns) do
-                                s = s..string.format('(%s:%q) ', i, string.gsub(v, "%%", "%%%%"))
+                                s = s.."["..i.."]: {\""..string.gsub(v[1], "%%", "%%")
+                                for i=2, getn(v) do
+                                    s = s.."\", \""..string.gsub(v[i], "%%", "%%")
+                                end
+                                s = s.."\"} "
                             end
-                            self:Print(s)
+                            self:Print("Patterns:", s)
                         end
                     },
                     add = {
@@ -226,8 +283,11 @@ function this:Init()
                         type = "text",
                         usage = "<pattern> or <index, pattern>",
                         get = false,
-                        set = function(index, pattern)
-                            self:AddPattern(index, pattern)
+                        set = function(args)
+                            local f = string.gmatch(args, "%S+")
+                            local pattern, index = f(), f()
+                            self:Debug("[add]", pattern, index)
+                            self:AddPattern(pattern, tonumber(index))
                         end
                     },
                     remove = {
@@ -236,14 +296,11 @@ function this:Init()
                         type = "text",
                         usage = "<index>",
                         get = false,
-                        set = function(index)
-                            index = tonumber(index)
-                            if index <= getn(self.patterns) then
-                                self:Print("Removed index %d (%q)", index, self.patterns[index])
-                                table.remove(self.patterns, index)
-                            else
-                                self:Print("|cffff0000Error|r Index %d does not exist", index)
-                            end
+                        set = function(args)
+                            local f = string.gmatch(args, "%S+")
+                            local index, subindex = f(), f()
+                            self:Debug("[remove]", index, subindex)
+                            self:RemovePattern(tonumber(index), tonumber(subindex))
                         end
                     }
                 }
