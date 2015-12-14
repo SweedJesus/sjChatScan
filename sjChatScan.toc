@@ -1,8 +1,9 @@
 ﻿## Interface: 11200
 ## Title: |cffffff00s|r|cff007fffj|rChatScan |cff7fff7f-Ace2-|r |cffff00001.12|r 
 ## Author: SweedJesus (Miraculin @ Nostalrius)
-## Note: Scans channel messages for search patterns using Lua regex and does something when there's a match. 
-## X-Website: http://sweedjesus.github.io/my-addons/
+## X-Website: https://sweedjesus.github.io/my-addons/
+## Note: Scans channel messages for search patterns using Lua regex and does
+something when there's a match. 
 ## DefaultState: Enabled
 ## SavedVariables: sjChatScan_DB
 
