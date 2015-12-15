@@ -15,4 +15,4 @@ libs\AceDebug-2.0\AceDebug-2.0.lua
 libs\AceEvent-2.0\AceEvent-2.0.lua
 libs\AceOO-2.0\AceOO-2.0.lua
 
-core.lua
+sjChatScan.lua
